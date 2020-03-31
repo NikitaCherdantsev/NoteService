@@ -1,0 +1,35 @@
+2020-03-31 09:04:40,604 [INFO] - Shutting down SelectorLoop blaze-selector-0
+2020-03-31 09:04:40,604 [INFO] - Shutting down SelectorLoop blaze-selector-1
+2020-03-31 09:04:40,604 [INFO] - Shutting down SelectorLoop blaze-selector-2
+2020-03-31 09:04:40,604 [INFO] - Shutting down SelectorLoop blaze-selector-3
+2020-03-31 09:04:40,604 [INFO] - Shutting down SelectorLoop blaze-selector-4
+2020-03-31 09:06:17,363 [INFO] - Shutting down SelectorLoop blaze-selector-0
+2020-03-31 09:06:17,366 [INFO] - Shutting down SelectorLoop blaze-selector-1
+2020-03-31 09:06:17,367 [INFO] - Shutting down SelectorLoop blaze-selector-2
+2020-03-31 09:06:17,367 [INFO] - Shutting down SelectorLoop blaze-selector-3
+2020-03-31 09:06:17,367 [INFO] - Shutting down SelectorLoop blaze-selector-4
+2020-03-31 09:07:08,153 [INFO] - Shutting down SelectorLoop blaze-selector-0
+2020-03-31 09:07:08,153 [INFO] - Shutting down SelectorLoop blaze-selector-1
+2020-03-31 09:07:08,153 [INFO] - Shutting down SelectorLoop blaze-selector-2
+2020-03-31 09:07:08,153 [INFO] - Shutting down SelectorLoop blaze-selector-3
+2020-03-31 09:07:08,153 [INFO] - Shutting down SelectorLoop blaze-selector-4
+2020-03-31 09:08:16,194 [INFO] - Service bound to address /127.0.0.1:8082
+2020-03-31 09:08:16,204 [INFO] - 
+  _   _   _        _ _
+ | |_| |_| |_ _ __| | | ___
+ | ' \  _|  _| '_ \_  _(_-<
+ |_||_\__|\__| .__/ |_|/__/
+             |_|
+2020-03-31 09:08:16,244 [INFO] - http4s v0.21.1 on blaze v0.14.11 started at http://127.0.0.1:8082/
+2020-03-31 09:08:27,448 [INFO] - Accepted connection from /127.0.0.1:50470
+2020-03-31 09:17:16,142 [INFO] - Accepted connection from /127.0.0.1:50591
+2020-03-31 12:05:37,812 [INFO] - Service bound to address /127.0.0.1:8083
+2020-03-31 12:05:37,829 [INFO] - 
+  _   _   _        _ _
+ | |_| |_| |_ _ __| | | ___
+ | ' \  _|  _| '_ \_  _(_-<
+ |_||_\__|\__| .__/ |_|/__/
+             |_|
+2020-03-31 12:05:37,929 [INFO] - http4s v0.21.1 on blaze v0.14.11 started at http://127.0.0.1:8083/
+2020-03-31 12:05:43,573 [INFO] - Accepted connection from /127.0.0.1:51734
+2020-03-31 12:10:49,227 [INFO] - Accepted connection from /127.0.0.1:51781
