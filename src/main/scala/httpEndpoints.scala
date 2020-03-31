@@ -11,6 +11,7 @@ import org.http4s.HttpRoutes
 import org.http4s.metrics.prometheus.Prometheus
 import org.http4s.server.Router
 import org.http4s.server.middleware.Metrics
+import sttp.model.StatusCode
 import sttp.tapir.docs.openapi._
 import sttp.tapir.json.circe._
 import sttp.tapir.openapi.circe.yaml._
@@ -23,81 +24,87 @@ import scala.concurrent.ExecutionContext
 
 package object httpEndpoints {
 
-  implicit val serviceInfoReader: Codec[Note] = deriveCodec
   implicit val ec: ExecutionContext           = scala.concurrent.ExecutionContext.Implicits.global
   implicit val cs: ContextShift[IO]           = IO.contextShift(scala.concurrent.ExecutionContext.global)
   implicit val timer: Timer[IO]               = IO.timer(ec)
   val notes: Ref[IO, Map[String, Note]]       = Ref.unsafe[IO, Map[String, Note]](Map.empty)
 
-  val createNote: ServerEndpoint[Note, String, String, Nothing, IO] =
-    endpoint.post
-      .in("notes/add")
+  def baseApiEndpoint: Endpoint[Unit, Unit, Unit, Nothing] = endpoint.in("notes")
+
+  val createNote: ServerEndpoint[Note, (StatusCode, String), String, Nothing, IO] =
+    baseApiEndpoint.post
+      .in("add")
       .in(jsonBody[Note])
+      .errorOut(statusCode)
       .errorOut(jsonBody[String])
       .out(jsonBody[String])
       .serverLogic(note => createNoteLogic(note))
 
-  val readNote: ServerEndpoint[String, String, Json, Nothing, IO] =
-    endpoint.get
-      .in("notes/read")
+  val readNote: ServerEndpoint[String, (StatusCode, String), Json, Nothing, IO] =
+    baseApiEndpoint.get
+      .in("read")
       .in(jsonBody[String])
+      .errorOut(statusCode)
       .errorOut(jsonBody[String])
       .out(jsonBody[Json])
       .serverLogic(id => readNoteLogic(id))
 
-  val updateNote: ServerEndpoint[Note, String, String, Nothing, IO] =
-    endpoint.post
-      .in("notes/update")
+  val updateNote: ServerEndpoint[Note, (StatusCode, String), String, Nothing, IO] =
+    baseApiEndpoint.post
+      .in("update")
       .in(jsonBody[Note])
+      .errorOut(statusCode)
       .errorOut(jsonBody[String])
       .out(jsonBody[String])
       .serverLogic(note => updateNoteLogic(note))
 
-  val deleteNote: ServerEndpoint[String, String, String, Nothing, IO] =
-    endpoint.delete
-      .in("notes/delete")
+  val deleteNote: ServerEndpoint[String, (StatusCode, String), String, Nothing, IO] =
+    baseApiEndpoint.delete
+      .in("delete")
       .in(jsonBody[String])
+      .errorOut(statusCode)
       .errorOut(jsonBody[String])
       .out(jsonBody[String])
       .serverLogic(id => deleteNoteLogic(id))
 
-  val listNote: ServerEndpoint[Unit, String, Json, Nothing, IO] =
-    endpoint.get
-      .in("notes/list")
+  val listNote: ServerEndpoint[Unit, (StatusCode, String), Json, Nothing, IO] =
+    baseApiEndpoint.get
+      .in("list")
+      .errorOut(statusCode)
       .errorOut(jsonBody[String])
       .out(jsonBody[Json])
       .serverLogic(unit => listNoteLogic)
 
-  private def createNoteLogic(note: Note): IO[Either[String, String]] = IO {
+  private def createNoteLogic(note: Note): IO[Either[(StatusCode, String), String]] = IO {
     if (!notes.get.map(_.isDefinedAt(note.id)).unsafeRunSync())
-      Left("This Note is already exists!")
+      Left(statusCode, "This Note is already exists!")
     notes.set(Map[String, Note](note.id -> note))
     Right("Aded!")
   }
 
-  def readNoteLogic(id: String): IO[Either[String, Json]] = IO {
+  def readNoteLogic(id: String): IO[Either[(StatusCode, String), Json]] = IO {
     if (!notes.get.map(_.isDefinedAt(id)).unsafeRunSync())
-      Left("This ID is doesn't exists!")
+      Left(statusCode, "This ID is doesn't exists!")
     Right(notes.get.unsafeRunSync()(id).asJson)
   }
 
-  def updateNoteLogic(note: Note): IO[Either[String, String]] = IO {
+  def updateNoteLogic(note: Note): IO[Either[(StatusCode, String), String]] = IO {
     if (!notes.get.map(_.isDefinedAt(note.id)).unsafeRunSync())
-      Left("This ID is doesn't exists!")
+      Left(statusCode, "This ID is doesn't exists!")
     notes.update(map => map.updated(note.id, note))
     Right("Note was updated!")
   }
 
-  def deleteNoteLogic(id: String): IO[Either[String, String]] = IO {
+  def deleteNoteLogic(id: String): IO[Either[(StatusCode, String), String]] = IO {
     if (!notes.get.map(_.isDefinedAt(id)).unsafeRunSync())
-      Left("This ID is doesn't exists!")
+      Left(statusCode, "This ID is doesn't exists!")
     notes.update(map => map.removed(id))
     Right("Removed!")
   }
 
-  def listNoteLogic: IO[Either[String, Json]] = IO {
+  def listNoteLogic: IO[Either[(StatusCode, String), Json]] = IO {
     if (notes.get.map(_.isEmpty).unsafeRunSync())
-      Left("Empty!")
+      Left(statusCode, "Empty!")
     Right(notes.get.unsafeRunSync().toList.asJson)
   }
 

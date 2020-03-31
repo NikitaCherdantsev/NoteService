@@ -33,3 +33,179 @@
 2020-03-31 12:05:37,929 [INFO] - http4s v0.21.1 on blaze v0.14.11 started at http://127.0.0.1:8083/
 2020-03-31 12:05:43,573 [INFO] - Accepted connection from /127.0.0.1:51734
 2020-03-31 12:10:49,227 [INFO] - Accepted connection from /127.0.0.1:51781
+2020-03-31 12:49:40,389 [INFO] - Service bound to address /127.0.0.1:8083
+2020-03-31 12:49:40,400 [INFO] - 
+  _   _   _        _ _
+ | |_| |_| |_ _ __| | | ___
+ | ' \  _|  _| '_ \_  _(_-<
+ |_||_\__|\__| .__/ |_|/__/
+             |_|
+2020-03-31 12:49:40,451 [INFO] - http4s v0.21.1 on blaze v0.14.11 started at http://127.0.0.1:8083/
+2020-03-31 12:49:45,333 [INFO] - Accepted connection from /127.0.0.1:52210
+2020-03-31 12:49:54,700 [INFO] - Accepted connection from /127.0.0.1:52213
+2020-03-31 12:49:54,700 [INFO] - Accepted connection from /127.0.0.1:52212
+2020-03-31 12:52:50,143 [INFO] - Accepted connection from /127.0.0.1:52237
+2020-03-31 12:55:58,830 [INFO] - Accepted connection from /127.0.0.1:52264
+2020-03-31 15:03:30,386 [INFO] - Service bound to address /127.0.0.1:8083
+2020-03-31 15:03:30,410 [INFO] - 
+  _   _   _        _ _
+ | |_| |_| |_ _ __| | | ___
+ | ' \  _|  _| '_ \_  _(_-<
+ |_||_\__|\__| .__/ |_|/__/
+             |_|
+2020-03-31 15:03:30,502 [INFO] - http4s v0.21.1 on blaze v0.14.11 started at http://127.0.0.1:8083/
+2020-03-31 15:20:36,030 [INFO] - Accepted connection from /127.0.0.1:53002
+2020-03-31 15:20:44,297 [INFO] - Accepted connection from /127.0.0.1:53004
+2020-03-31 15:20:44,297 [INFO] - Accepted connection from /127.0.0.1:53003
+2020-03-31 15:20:53,152 [ERROR] - Exception when handling request by: POST /notes /add {body as application/json} -> status code - possible codes (Map()) {body as application/json}/{body as application/json}
+java.lang.NullPointerException: null
+	at httpEndpoints.package$.$anonfun$createNoteLogic$1(httpEndpoints.scala:79)
+	at cats.effect.internals.IORunLoop$.cats$effect$internals$IORunLoop$$loop(IORunLoop.scala:87)
+	at cats.effect.internals.IORunLoop$RestartCallback.signal(IORunLoop.scala:359)
+	at cats.effect.internals.IORunLoop$RestartCallback.apply(IORunLoop.scala:380)
+	at cats.effect.internals.IORunLoop$RestartCallback.apply(IORunLoop.scala:323)
+	at cats.effect.internals.IORunLoop$.cats$effect$internals$IORunLoop$$loop(IORunLoop.scala:139)
+	at cats.effect.internals.IORunLoop$.startCancelable(IORunLoop.scala:41)
+	at cats.effect.internals.IOBracket$BracketStart.run(IOBracket.scala:88)
+	at cats.effect.internals.Trampoline.cats$effect$internals$Trampoline$$immediateLoop(Trampoline.scala:67)
+	at cats.effect.internals.Trampoline.startLoop(Trampoline.scala:35)
+	at cats.effect.internals.TrampolineEC$JVMTrampoline.super$startLoop(TrampolineEC.scala:89)
+	at cats.effect.internals.TrampolineEC$JVMTrampoline.$anonfun$startLoop$1(TrampolineEC.scala:89)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)
+	at scala.concurrent.BlockContext$.withBlockContext(BlockContext.scala:94)
+	at cats.effect.internals.TrampolineEC$JVMTrampoline.startLoop(TrampolineEC.scala:89)
+	at cats.effect.internals.Trampoline.execute(Trampoline.scala:43)
+	at cats.effect.internals.TrampolineEC.execute(TrampolineEC.scala:42)
+	at cats.effect.internals.IOBracket$BracketStart.apply(IOBracket.scala:69)
+	at cats.effect.internals.IOBracket$BracketStart.apply(IOBracket.scala:49)
+	at cats.effect.internals.IORunLoop$.cats$effect$internals$IORunLoop$$loop(IORunLoop.scala:139)
+	at cats.effect.internals.IORunLoop$.start(IORunLoop.scala:34)
+	at cats.effect.internals.IOBracket$.$anonfun$apply$1(IOBracket.scala:42)
+	at cats.effect.internals.IOBracket$.$anonfun$apply$1$adapted(IOBracket.scala:32)
+	at cats.effect.internals.IORunLoop$RestartCallback.start(IORunLoop.scala:345)
+	at cats.effect.internals.IORunLoop$.cats$effect$internals$IORunLoop$$loop(IORunLoop.scala:122)
+	at cats.effect.internals.IORunLoop$RestartCallback.signal(IORunLoop.scala:359)
+	at cats.effect.internals.IORunLoop$RestartCallback.apply(IORunLoop.scala:380)
+	at cats.effect.internals.IORunLoop$RestartCallback.apply(IORunLoop.scala:323)
+	at cats.effect.internals.IOShift$Tick.run(IOShift.scala:35)
+	at cats.effect.internals.PoolUtils$$anon$2$$anon$3.run(PoolUtils.scala:52)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+2020-03-31 15:20:53,167 [ERROR] - Error servicing request: POST /notes/add from 127.0.0.1
+java.lang.NullPointerException: null
+	at httpEndpoints.package$.$anonfun$createNoteLogic$1(httpEndpoints.scala:79)
+	at cats.effect.internals.IORunLoop$.cats$effect$internals$IORunLoop$$loop(IORunLoop.scala:87)
+	at cats.effect.internals.IORunLoop$RestartCallback.signal(IORunLoop.scala:359)
+	at cats.effect.internals.IORunLoop$RestartCallback.apply(IORunLoop.scala:380)
+	at cats.effect.internals.IORunLoop$RestartCallback.apply(IORunLoop.scala:323)
+	at cats.effect.internals.IORunLoop$.cats$effect$internals$IORunLoop$$loop(IORunLoop.scala:139)
+	at cats.effect.internals.IORunLoop$.startCancelable(IORunLoop.scala:41)
+	at cats.effect.internals.IOBracket$BracketStart.run(IOBracket.scala:88)
+	at cats.effect.internals.Trampoline.cats$effect$internals$Trampoline$$immediateLoop(Trampoline.scala:67)
+	at cats.effect.internals.Trampoline.startLoop(Trampoline.scala:35)
+	at cats.effect.internals.TrampolineEC$JVMTrampoline.super$startLoop(TrampolineEC.scala:89)
+	at cats.effect.internals.TrampolineEC$JVMTrampoline.$anonfun$startLoop$1(TrampolineEC.scala:89)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)
+	at scala.concurrent.BlockContext$.withBlockContext(BlockContext.scala:94)
+	at cats.effect.internals.TrampolineEC$JVMTrampoline.startLoop(TrampolineEC.scala:89)
+	at cats.effect.internals.Trampoline.execute(Trampoline.scala:43)
+	at cats.effect.internals.TrampolineEC.execute(TrampolineEC.scala:42)
+	at cats.effect.internals.IOBracket$BracketStart.apply(IOBracket.scala:69)
+	at cats.effect.internals.IOBracket$BracketStart.apply(IOBracket.scala:49)
+	at cats.effect.internals.IORunLoop$.cats$effect$internals$IORunLoop$$loop(IORunLoop.scala:139)
+	at cats.effect.internals.IORunLoop$.start(IORunLoop.scala:34)
+	at cats.effect.internals.IOBracket$.$anonfun$apply$1(IOBracket.scala:42)
+	at cats.effect.internals.IOBracket$.$anonfun$apply$1$adapted(IOBracket.scala:32)
+	at cats.effect.internals.IORunLoop$RestartCallback.start(IORunLoop.scala:345)
+	at cats.effect.internals.IORunLoop$.cats$effect$internals$IORunLoop$$loop(IORunLoop.scala:122)
+	at cats.effect.internals.IORunLoop$RestartCallback.signal(IORunLoop.scala:359)
+	at cats.effect.internals.IORunLoop$RestartCallback.apply(IORunLoop.scala:380)
+	at cats.effect.internals.IORunLoop$RestartCallback.apply(IORunLoop.scala:323)
+	at cats.effect.internals.IOShift$Tick.run(IOShift.scala:35)
+	at cats.effect.internals.PoolUtils$$anon$2$$anon$3.run(PoolUtils.scala:52)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+2020-03-31 15:20:57,041 [ERROR] - Exception when handling request by: POST /notes /add {body as application/json} -> status code - possible codes (Map()) {body as application/json}/{body as application/json}
+java.lang.NullPointerException: null
+	at httpEndpoints.package$.$anonfun$createNoteLogic$1(httpEndpoints.scala:79)
+	at cats.effect.internals.IORunLoop$.cats$effect$internals$IORunLoop$$loop(IORunLoop.scala:87)
+	at cats.effect.internals.IORunLoop$RestartCallback.signal(IORunLoop.scala:359)
+	at cats.effect.internals.IORunLoop$RestartCallback.apply(IORunLoop.scala:380)
+	at cats.effect.internals.IORunLoop$RestartCallback.apply(IORunLoop.scala:323)
+	at cats.effect.internals.IORunLoop$.cats$effect$internals$IORunLoop$$loop(IORunLoop.scala:139)
+	at cats.effect.internals.IORunLoop$.startCancelable(IORunLoop.scala:41)
+	at cats.effect.internals.IOBracket$BracketStart.run(IOBracket.scala:88)
+	at cats.effect.internals.Trampoline.cats$effect$internals$Trampoline$$immediateLoop(Trampoline.scala:67)
+	at cats.effect.internals.Trampoline.startLoop(Trampoline.scala:35)
+	at cats.effect.internals.TrampolineEC$JVMTrampoline.super$startLoop(TrampolineEC.scala:89)
+	at cats.effect.internals.TrampolineEC$JVMTrampoline.$anonfun$startLoop$1(TrampolineEC.scala:89)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)
+	at scala.concurrent.BlockContext$.withBlockContext(BlockContext.scala:94)
+	at cats.effect.internals.TrampolineEC$JVMTrampoline.startLoop(TrampolineEC.scala:89)
+	at cats.effect.internals.Trampoline.execute(Trampoline.scala:43)
+	at cats.effect.internals.TrampolineEC.execute(TrampolineEC.scala:42)
+	at cats.effect.internals.IOBracket$BracketStart.apply(IOBracket.scala:69)
+	at cats.effect.internals.IOBracket$BracketStart.apply(IOBracket.scala:49)
+	at cats.effect.internals.IORunLoop$.cats$effect$internals$IORunLoop$$loop(IORunLoop.scala:139)
+	at cats.effect.internals.IORunLoop$.start(IORunLoop.scala:34)
+	at cats.effect.internals.IOBracket$.$anonfun$apply$1(IOBracket.scala:42)
+	at cats.effect.internals.IOBracket$.$anonfun$apply$1$adapted(IOBracket.scala:32)
+	at cats.effect.internals.IORunLoop$RestartCallback.start(IORunLoop.scala:345)
+	at cats.effect.internals.IORunLoop$.cats$effect$internals$IORunLoop$$loop(IORunLoop.scala:122)
+	at cats.effect.internals.IORunLoop$RestartCallback.signal(IORunLoop.scala:359)
+	at cats.effect.internals.IORunLoop$RestartCallback.apply(IORunLoop.scala:380)
+	at cats.effect.internals.IORunLoop$RestartCallback.apply(IORunLoop.scala:323)
+	at cats.effect.internals.IOShift$Tick.run(IOShift.scala:35)
+	at cats.effect.internals.PoolUtils$$anon$2$$anon$3.run(PoolUtils.scala:52)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+2020-03-31 15:20:57,041 [ERROR] - Error servicing request: POST /notes/add from 127.0.0.1
+java.lang.NullPointerException: null
+	at httpEndpoints.package$.$anonfun$createNoteLogic$1(httpEndpoints.scala:79)
+	at cats.effect.internals.IORunLoop$.cats$effect$internals$IORunLoop$$loop(IORunLoop.scala:87)
+	at cats.effect.internals.IORunLoop$RestartCallback.signal(IORunLoop.scala:359)
+	at cats.effect.internals.IORunLoop$RestartCallback.apply(IORunLoop.scala:380)
+	at cats.effect.internals.IORunLoop$RestartCallback.apply(IORunLoop.scala:323)
+	at cats.effect.internals.IORunLoop$.cats$effect$internals$IORunLoop$$loop(IORunLoop.scala:139)
+	at cats.effect.internals.IORunLoop$.startCancelable(IORunLoop.scala:41)
+	at cats.effect.internals.IOBracket$BracketStart.run(IOBracket.scala:88)
+	at cats.effect.internals.Trampoline.cats$effect$internals$Trampoline$$immediateLoop(Trampoline.scala:67)
+	at cats.effect.internals.Trampoline.startLoop(Trampoline.scala:35)
+	at cats.effect.internals.TrampolineEC$JVMTrampoline.super$startLoop(TrampolineEC.scala:89)
+	at cats.effect.internals.TrampolineEC$JVMTrampoline.$anonfun$startLoop$1(TrampolineEC.scala:89)
+	at scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)
+	at scala.concurrent.BlockContext$.withBlockContext(BlockContext.scala:94)
+	at cats.effect.internals.TrampolineEC$JVMTrampoline.startLoop(TrampolineEC.scala:89)
+	at cats.effect.internals.Trampoline.execute(Trampoline.scala:43)
+	at cats.effect.internals.TrampolineEC.execute(TrampolineEC.scala:42)
+	at cats.effect.internals.IOBracket$BracketStart.apply(IOBracket.scala:69)
+	at cats.effect.internals.IOBracket$BracketStart.apply(IOBracket.scala:49)
+	at cats.effect.internals.IORunLoop$.cats$effect$internals$IORunLoop$$loop(IORunLoop.scala:139)
+	at cats.effect.internals.IORunLoop$.start(IORunLoop.scala:34)
+	at cats.effect.internals.IOBracket$.$anonfun$apply$1(IOBracket.scala:42)
+	at cats.effect.internals.IOBracket$.$anonfun$apply$1$adapted(IOBracket.scala:32)
+	at cats.effect.internals.IORunLoop$RestartCallback.start(IORunLoop.scala:345)
+	at cats.effect.internals.IORunLoop$.cats$effect$internals$IORunLoop$$loop(IORunLoop.scala:122)
+	at cats.effect.internals.IORunLoop$RestartCallback.signal(IORunLoop.scala:359)
+	at cats.effect.internals.IORunLoop$RestartCallback.apply(IORunLoop.scala:380)
+	at cats.effect.internals.IORunLoop$RestartCallback.apply(IORunLoop.scala:323)
+	at cats.effect.internals.IOShift$Tick.run(IOShift.scala:35)
+	at cats.effect.internals.PoolUtils$$anon$2$$anon$3.run(PoolUtils.scala:52)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:748)
+2020-03-31 15:23:50,034 [INFO] - Service bound to address /127.0.0.1:8083
+2020-03-31 15:23:50,044 [INFO] - 
+  _   _   _        _ _
+ | |_| |_| |_ _ __| | | ___
+ | ' \  _|  _| '_ \_  _(_-<
+ |_||_\__|\__| .__/ |_|/__/
+             |_|
+2020-03-31 15:23:50,087 [INFO] - http4s v0.21.1 on blaze v0.14.11 started at http://127.0.0.1:8083/
+2020-03-31 15:25:01,012 [INFO] - Accepted connection from /127.0.0.1:53049
+2020-03-31 15:25:06,312 [INFO] - Accepted connection from /127.0.0.1:53050
+2020-03-31 15:25:06,313 [INFO] - Accepted connection from /127.0.0.1:53051
+2020-03-31 15:28:29,920 [INFO] - Accepted connection from /127.0.0.1:53057
