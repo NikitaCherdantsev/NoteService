@@ -1,10 +1,8 @@
 import cats.data.Ior.Left
 import cats.effect.concurrent.Ref
 import cats.effect.{ContextShift, IO, Resource, Timer}
-import cats.implicits._
-import io.circe.generic.semiauto.deriveCodec
 import io.circe.syntax._
-import io.circe.{Codec, Json}
+import io.circe.Json
 import io.prometheus.client.CollectorRegistry
 import io.prometheus.client.hotspot.DefaultExports
 import org.http4s.HttpRoutes
@@ -19,15 +17,16 @@ import sttp.tapir.server.ServerEndpoint
 import sttp.tapir.server.http4s._
 import sttp.tapir.swagger.http4s.SwaggerHttp4s
 import sttp.tapir.{endpoint, jsonBody, _}
-
+import cats.syntax.all._
 import scala.concurrent.ExecutionContext
+
 
 package object httpEndpoints {
 
   implicit val ec: ExecutionContext           = scala.concurrent.ExecutionContext.Implicits.global
   implicit val cs: ContextShift[IO]           = IO.contextShift(scala.concurrent.ExecutionContext.global)
   implicit val timer: Timer[IO]               = IO.timer(ec)
-  val notes: Ref[IO, Map[String, Note]]       = Ref.unsafe[IO, Map[String, Note]](Map.empty)
+  val notes: IO[Ref[IO, Map[String, Note]]] = Ref.of[IO, Map[String, Note]](Map.empty)
 
   def baseApiEndpoint: Endpoint[Unit, Unit, Unit, Nothing] = endpoint.in("notes")
 
@@ -75,37 +74,57 @@ package object httpEndpoints {
       .out(jsonBody[Json])
       .serverLogic(unit => listNoteLogic)
 
-  private def createNoteLogic(note: Note): IO[Either[(StatusCode, String), String]] = IO {
-    if (!notes.get.map(_.isDefinedAt(note.id)).unsafeRunSync())
-      Left(statusCode, "This Note is already exists!")
-    notes.set(Map[String, Note](note.id -> note))
-    Right("Aded!")
+  private def createNoteLogic(note: Note): IO[Either[(StatusCode, String), String]] = {
+    def logic(option: Option[Note]): IO[Either[(StatusCode, String), String]] = IO {
+      if (option.isDefined)
+        Left(statusCode, "This ID is doesn't exists!")
+      notes.flatMap(_.update(map => map + (note.id -> note)))
+      Right("Aded!")
+    }
+
+    notes.flatMap(_.get.map(_.get(note.id)).flatMap(logic))
   }
 
-  def readNoteLogic(id: String): IO[Either[(StatusCode, String), Json]] = IO {
-    if (!notes.get.map(_.isDefinedAt(id)).unsafeRunSync())
-      Left(statusCode, "This ID is doesn't exists!")
-    Right(notes.get.unsafeRunSync()(id).asJson)
+  def readNoteLogic(id: String): IO[Either[(StatusCode, String), Json]] = {
+    def logic(option: Option[Note]): IO[Either[(StatusCode, String), Json]] = IO {
+      if (option.isDefined)
+        Left(statusCode, "This ID is doesn't exists!")
+      Right(option.get.asJson)
+    }
+
+    notes.flatMap(_.get.map(_.get(id)).flatMap(logic))
   }
 
-  def updateNoteLogic(note: Note): IO[Either[(StatusCode, String), String]] = IO {
-    if (!notes.get.map(_.isDefinedAt(note.id)).unsafeRunSync())
-      Left(statusCode, "This ID is doesn't exists!")
-    notes.update(map => map.updated(note.id, note))
-    Right("Note was updated!")
+  def updateNoteLogic(note: Note): IO[Either[(StatusCode, String), String]] = {
+    def logic(option: Option[Note]):  IO[Either[(StatusCode, String), String]] = IO {
+      if (option.isDefined)
+        Left(statusCode, "This ID is doesn't exists!")
+      notes.flatMap(_.update(map => map.updated(note.id, note)))
+      Right("Note was updated!")
+    }
+
+    notes.flatMap(_.get.map(_.get(note.id)).flatMap(logic))
   }
 
-  def deleteNoteLogic(id: String): IO[Either[(StatusCode, String), String]] = IO {
-    if (!notes.get.map(_.isDefinedAt(id)).unsafeRunSync())
-      Left(statusCode, "This ID is doesn't exists!")
-    notes.update(map => map.removed(id))
-    Right("Removed!")
+  def deleteNoteLogic(id: String): IO[Either[(StatusCode, String), String]] = {
+    def logic(option: Option[Note]):  IO[Either[(StatusCode, String), String]] = IO {
+      if (option.isDefined)
+        Left(statusCode, "This ID is doesn't exists!")
+      notes.flatMap(_.update(_.removed(id)))
+      Right("Note was removed!")
+    }
+
+    notes.flatMap(_.get.map(_.get(id)).flatMap(logic))
   }
 
-  def listNoteLogic: IO[Either[(StatusCode, String), Json]] = IO {
-    if (notes.get.map(_.isEmpty).unsafeRunSync())
-      Left(statusCode, "Empty!")
-    Right(notes.get.unsafeRunSync().toList.asJson)
+  def listNoteLogic: IO[Either[(StatusCode, String), Json]] = {
+    def logic(map: Map[String, Note]): IO[Either[(StatusCode, String), Json]] = IO {
+      if (map.isEmpty)
+        Left(statusCode, "Empty!")
+      Right(map.toList.asJson)
+    }
+
+    notes.flatMap(_.get.flatMap(logic))
   }
 
   private val registry = {
