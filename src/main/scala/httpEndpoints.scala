@@ -21,12 +21,12 @@ import cats.syntax.all._
 import scala.concurrent.ExecutionContext
 
 
-package object httpEndpoints {
+class HttpEndpoints(notes: Ref[IO, Map[String, Note]])(implicit val cs: ContextShift[IO], implicit val timer: Timer[IO]) {
+//
+//  implicit val ec: ExecutionContext           = scala.concurrent.ExecutionContext.Implicits.global
+//  implicit val cs: ContextShift[IO]           = IO.contextShift(scala.concurrent.ExecutionContext.global)
+//  implicit val timer: Timer[IO]               = IO.timer(ec)
 
-  implicit val ec: ExecutionContext           = scala.concurrent.ExecutionContext.Implicits.global
-  implicit val cs: ContextShift[IO]           = IO.contextShift(scala.concurrent.ExecutionContext.global)
-  implicit val timer: Timer[IO]               = IO.timer(ec)
-  val notes: IO[Ref[IO, Map[String, Note]]] = Ref.of[IO, Map[String, Note]](Map.empty)
 
   def baseApiEndpoint: Endpoint[Unit, Unit, Unit, Nothing] = endpoint.in("notes")
 
@@ -78,11 +78,11 @@ package object httpEndpoints {
     def logic(option: Option[Note]): IO[Either[(StatusCode, String), String]] = IO {
       if (option.isDefined)
         Left(statusCode, "This ID is doesn't exists!")
-      notes.flatMap(_.update(map => map + (note.id -> note)))
+      notes.update(map => map + (note.id -> note))
       Right("Aded!")
     }
 
-    notes.flatMap(_.get.map(_.get(note.id)).flatMap(logic))
+    notes.get.map(_.get(note.id)).flatMap(logic)
   }
 
   def readNoteLogic(id: String): IO[Either[(StatusCode, String), Json]] = {
@@ -92,29 +92,29 @@ package object httpEndpoints {
       Right(option.get.asJson)
     }
 
-    notes.flatMap(_.get.map(_.get(id)).flatMap(logic))
+    notes.get.map(_.get(id)).flatMap(logic)
   }
 
   def updateNoteLogic(note: Note): IO[Either[(StatusCode, String), String]] = {
     def logic(option: Option[Note]):  IO[Either[(StatusCode, String), String]] = IO {
       if (option.isDefined)
         Left(statusCode, "This ID is doesn't exists!")
-      notes.flatMap(_.update(map => map.updated(note.id, note)))
+      notes.update(map => map.updated(note.id, note))
       Right("Note was updated!")
     }
 
-    notes.flatMap(_.get.map(_.get(note.id)).flatMap(logic))
+    notes.get.map(_.get(note.id)).flatMap(logic)
   }
 
   def deleteNoteLogic(id: String): IO[Either[(StatusCode, String), String]] = {
     def logic(option: Option[Note]):  IO[Either[(StatusCode, String), String]] = IO {
       if (option.isDefined)
         Left(statusCode, "This ID is doesn't exists!")
-      notes.flatMap(_.update(_.removed(id)))
+      notes.update(_.removed(id))
       Right("Note was removed!")
     }
 
-    notes.flatMap(_.get.map(_.get(id)).flatMap(logic))
+    notes.get.map(_.get(id)).flatMap(logic)
   }
 
   def listNoteLogic: IO[Either[(StatusCode, String), Json]] = {
@@ -124,7 +124,7 @@ package object httpEndpoints {
       Right(map.toList.asJson)
     }
 
-    notes.flatMap(_.get.flatMap(logic))
+    notes.get.flatMap(logic)
   }
 
   private val registry = {

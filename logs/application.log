@@ -31,3 +31,14 @@
 2020-04-01 10:40:30,784 [INFO] - Accepted connection from /127.0.0.1:55490
 2020-04-01 10:40:35,095 [INFO] - Accepted connection from /127.0.0.1:55492
 2020-04-01 10:40:35,097 [INFO] - Accepted connection from /127.0.0.1:55493
+2020-04-01 12:03:44,877 [INFO] - Service bound to address /127.0.0.1:8083
+2020-04-01 12:03:44,886 [INFO] - 
+  _   _   _        _ _
+ | |_| |_| |_ _ __| | | ___
+ | ' \  _|  _| '_ \_  _(_-<
+ |_||_\__|\__| .__/ |_|/__/
+             |_|
+2020-04-01 12:03:44,928 [INFO] - http4s v0.21.1 on blaze v0.14.11 started at http://127.0.0.1:8083/
+2020-04-01 12:03:50,701 [INFO] - Accepted connection from /127.0.0.1:56188
+2020-04-01 12:03:54,706 [INFO] - Accepted connection from /127.0.0.1:56191
+2020-04-01 12:03:54,708 [INFO] - Accepted connection from /127.0.0.1:56192
