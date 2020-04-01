@@ -77,7 +77,7 @@ class HttpEndpoints(notes: Ref[IO, Map[String, Note]])(implicit val cs: ContextS
   private def createNoteLogic(note: Note): IO[Either[(StatusCode, String), String]] = {
     def logic(option: Option[Note]): IO[Either[(StatusCode, String), String]] = IO {
       if (option.isDefined)
-        Left(statusCode, "This ID is doesn't exists!")
+        Left(statusCode, "This ID is already exists!")
       notes.update(map => map + (note.id -> note))
       Right("Aded!")
     }
@@ -87,7 +87,7 @@ class HttpEndpoints(notes: Ref[IO, Map[String, Note]])(implicit val cs: ContextS
 
   def readNoteLogic(id: String): IO[Either[(StatusCode, String), Json]] = {
     def logic(option: Option[Note]): IO[Either[(StatusCode, String), Json]] = IO {
-      if (option.isDefined)
+      if (option.isEmpty)
         Left(statusCode, "This ID is doesn't exists!")
       Right(option.get.asJson)
     }
@@ -97,7 +97,7 @@ class HttpEndpoints(notes: Ref[IO, Map[String, Note]])(implicit val cs: ContextS
 
   def updateNoteLogic(note: Note): IO[Either[(StatusCode, String), String]] = {
     def logic(option: Option[Note]):  IO[Either[(StatusCode, String), String]] = IO {
-      if (option.isDefined)
+      if (option.isEmpty)
         Left(statusCode, "This ID is doesn't exists!")
       notes.update(map => map.updated(note.id, note))
       Right("Note was updated!")
@@ -108,7 +108,7 @@ class HttpEndpoints(notes: Ref[IO, Map[String, Note]])(implicit val cs: ContextS
 
   def deleteNoteLogic(id: String): IO[Either[(StatusCode, String), String]] = {
     def logic(option: Option[Note]):  IO[Either[(StatusCode, String), String]] = IO {
-      if (option.isDefined)
+      if (option.isEmpty)
         Left(statusCode, "This ID is doesn't exists!")
       notes.update(_.removed(id))
       Right("Note was removed!")

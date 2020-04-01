@@ -1,19 +1,18 @@
 import cats.data.Kleisli
 import cats.effect.concurrent.Ref
-import cats.effect.{ExitCode, IO, IOApp, Resource}
+import cats.effect.{ExitCode, IO, IOApp}
 import cats.implicits._
 import org.http4s.implicits._
 import org.http4s.server.blaze.BlazeServerBuilder
-import org.http4s.{HttpRoutes, Request, Response}
+import org.http4s.{Request, Response}
 
 object Main extends IOApp {
 
-  val notes: Ref[IO, Map[String, Note]] = Ref.unsafe(Map.empty)
-  val service: Resource[IO, HttpRoutes[IO]] = new HttpEndpoints(notes).noteService
-
-  def run(args: List[String]): IO[ExitCode] = {
-    service.map(_.orNotFound).use(application)
-  }
+  def run(args: List[String]): IO[ExitCode] =
+    for {
+      ref     <- Ref.of[IO, Map[String, Note]](Map.empty)
+      service <- new HttpEndpoints(ref).noteService.map(_.orNotFound).use(application)
+    } yield service
 
   def application(app: Kleisli[IO, Request[IO], Response[IO]]): IO[ExitCode] =
     BlazeServerBuilder[IO]
