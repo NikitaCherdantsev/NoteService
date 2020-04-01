@@ -1,8 +1,9 @@
 import cats.data.Ior.Left
 import cats.effect.concurrent.Ref
 import cats.effect.{ContextShift, IO, Resource, Timer}
-import io.circe.syntax._
+import cats.syntax.all._
 import io.circe.Json
+import io.circe.syntax._
 import io.prometheus.client.CollectorRegistry
 import io.prometheus.client.hotspot.DefaultExports
 import org.http4s.HttpRoutes
@@ -17,11 +18,9 @@ import sttp.tapir.server.ServerEndpoint
 import sttp.tapir.server.http4s._
 import sttp.tapir.swagger.http4s.SwaggerHttp4s
 import sttp.tapir.{endpoint, jsonBody, _}
-import cats.syntax.all._
-import scala.concurrent.ExecutionContext
 
 
-class HttpEndpoints(notes: Ref[IO, Map[String, Note]])(implicit val cs: ContextShift[IO], implicit val timer: Timer[IO]) {
+class httpEndpoints(notes: Ref[IO, Map[String, Note]])(implicit val cs: ContextShift[IO], implicit val timer: Timer[IO]) {
 //
 //  implicit val ec: ExecutionContext           = scala.concurrent.ExecutionContext.Implicits.global
 //  implicit val cs: ContextShift[IO]           = IO.contextShift(scala.concurrent.ExecutionContext.global)
@@ -75,56 +74,56 @@ class HttpEndpoints(notes: Ref[IO, Map[String, Note]])(implicit val cs: ContextS
       .serverLogic(unit => listNoteLogic)
 
   private def createNoteLogic(note: Note): IO[Either[(StatusCode, String), String]] = {
-    def logic(option: Option[Note]): IO[Either[(StatusCode, String), String]] = IO {
+    def logic(option: Option[Note]): Either[(StatusCode, String), String] = {
       if (option.isDefined)
         Left(statusCode, "This ID is already exists!")
       notes.update(map => map + (note.id -> note))
       Right("Aded!")
     }
 
-    notes.get.map(_.get(note.id)).flatMap(logic)
+    notes.get.map(_.get(note.id)).map(logic)
   }
 
   def readNoteLogic(id: String): IO[Either[(StatusCode, String), Json]] = {
-    def logic(option: Option[Note]): IO[Either[(StatusCode, String), Json]] = IO {
+    def logic(option: Option[Note]): Either[(StatusCode, String), Json] = {
       if (option.isEmpty)
         Left(statusCode, "This ID is doesn't exists!")
       Right(option.get.asJson)
     }
 
-    notes.get.map(_.get(id)).flatMap(logic)
+    notes.get.map(_.get(id)).map(logic)
   }
 
   def updateNoteLogic(note: Note): IO[Either[(StatusCode, String), String]] = {
-    def logic(option: Option[Note]):  IO[Either[(StatusCode, String), String]] = IO {
+    def logic(option: Option[Note]):  Either[(StatusCode, String), String] = {
       if (option.isEmpty)
         Left(statusCode, "This ID is doesn't exists!")
       notes.update(map => map.updated(note.id, note))
       Right("Note was updated!")
     }
 
-    notes.get.map(_.get(note.id)).flatMap(logic)
+    notes.get.map(_.get(note.id)).map(logic)
   }
 
   def deleteNoteLogic(id: String): IO[Either[(StatusCode, String), String]] = {
-    def logic(option: Option[Note]):  IO[Either[(StatusCode, String), String]] = IO {
+    def logic(option: Option[Note]):  Either[(StatusCode, String), String] = {
       if (option.isEmpty)
         Left(statusCode, "This ID is doesn't exists!")
       notes.update(_.removed(id))
       Right("Note was removed!")
     }
 
-    notes.get.map(_.get(id)).flatMap(logic)
+    notes.get.map(_.get(id)).map(logic)
   }
 
   def listNoteLogic: IO[Either[(StatusCode, String), Json]] = {
-    def logic(map: Map[String, Note]): IO[Either[(StatusCode, String), Json]] = IO {
+    def logic(map: Map[String, Note]): Either[(StatusCode, String), Json] = {
       if (map.isEmpty)
         Left(statusCode, "Empty!")
       Right(map.toList.asJson)
     }
 
-    notes.get.flatMap(logic)
+    notes.get.map(logic)
   }
 
   private val registry = {

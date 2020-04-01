@@ -11,7 +11,7 @@ object Main extends IOApp {
   def run(args: List[String]): IO[ExitCode] =
     for {
       ref     <- Ref.of[IO, Map[String, Note]](Map.empty)
-      service <- new HttpEndpoints(ref).noteService.map(_.orNotFound).use(application)
+      service <- new httpEndpoints(ref).noteService.map(_.orNotFound).use(application)
     } yield service
 
   def application(app: Kleisli[IO, Request[IO], Response[IO]]): IO[ExitCode] =
