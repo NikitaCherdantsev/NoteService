@@ -1,0 +1,33 @@
+version: '3'
+
+volumes:
+  postgres-volume:
+
+services:
+
+  ################ APPS ###################
+
+  crude-service:
+    image: note-service
+    depends_on:
+      - postgres
+    ports:
+      - 8080:8080
+    environment:
+      POSTGRES_URI: jdbc:postgresql://postgres:5432/note_service
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_THREAD_SIZE: 3
+    restart: always
+
+  ################ SERVICE ###################
+
+  postgres:
+    image: postgres
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: note_service
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: postgres
+    restart: always
